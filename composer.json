@@ -1,0 +1,12 @@
+{
+    "name": "andronof/robotstxt",
+    "description": "Parse robots.txt",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andronov Konstantin",
+            "email": "andronof@mail.ru"
+        }
+    ],
+    "require": {}
+}
