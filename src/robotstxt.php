@@ -1,18 +1,23 @@
 <?php
-
-
-
-class Robotstxt {
+class Robotstxt 
+{
 
 	var $rules = array();
+	var $current_user_agent = null;
 
-	function __construct($text = '') {
+	function __construct($text = '') 
+	{
 		if ($text != '') {
 			$this->init($text);
 		}
 	}
+	
+	function setUserAgent($user_agent = null) {
+		$this->current_user_agent = $user_agent;
+	}
    
-    function init($text) {
+    function init($text) 
+	{
 	   $text = explode("\n", $text);
 	   $user_agent = "";
 	   foreach($text as $t) {
@@ -67,7 +72,15 @@ class Robotstxt {
 
    }
 
-   function isAllowed($url, $user_agent="*") {
+   function isUserAgent($user_agent) {
+	   return isset($this->rules[$user_agent]);
+   }
+   
+   function isAllowed($url, $user_agent="*") 
+   {
+	   if ($this->current_user_agent !== null) {
+		   $user_agent = $this->current_user_agent;
+	   }
    		$status = true;
    		if ( isset($this->rules[$user_agent])) {
 	   		foreach($this->rules[$user_agent] as $rl) {
