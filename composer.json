@@ -2,11 +2,18 @@
     "name": "andronof/robotstxt",
     "description": "Parse robots.txt",
     "license": "MIT",
+	"minimum-stability": "dev",
+	"type": "library",
     "authors": [
         {
             "name": "Andronov Konstantin",
             "email": "andronof@mail.ru"
         }
     ],
-    "require": {}
+    "require": {
+		"php": ">=5.4.0"
+	},
+	"autoload": {
+        "classmap": [ "src/robotstxt.php" ]
+    }
 }
