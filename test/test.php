@@ -16,6 +16,11 @@ $robots->init("
 
 				Allow:/m.php$
 
+				User-agent: google
+				Disallow: /
+
+				
+
 	");
 
 var_dump($robots->rules);
