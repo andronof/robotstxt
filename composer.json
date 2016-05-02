@@ -2,7 +2,7 @@
     "name": "andronof/robotstxt",
     "description": "Parse robots.txt",
     "license": "MIT",
-	"minimum-stability": "dev",
+	"minimum-stability": "stable",
 	"type": "library",
     "authors": [
         {
