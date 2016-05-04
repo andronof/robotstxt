@@ -41,6 +41,15 @@ class Robotstxt
 							} else {
 								$value = $params[1].'*';
 							}
+
+							// Если пустые параметры
+							if ($value == "*") {
+								if ($params[0] === 'disallow') {
+									$params[0] = 'allow';
+								} else {
+									$params[0] = 'disallow';
+								}
+							}
 							
 							
 						    $this->rules[$user_agent][] = array(
@@ -57,12 +66,17 @@ class Robotstxt
 	   }
 	   
 	    function cmp($a, $b) {
-			
-			if (mb_strlen($a['value']) == mb_strlen($b['value'])) {
+			if (mb_strlen($a['value'], "UTF-8") == mb_strlen($b['value'], "UTF-8")) {
+				if ($a['name'] == 'allow') {
+					return 1;
+				} else {
+					return -1;
+				}
 				return 0;
 			}
-			return (mb_strlen($a['value']) < mb_strlen($b['value'])) ? -1 : 1;
+			return (mb_strlen($a['value'], "UTF-8") < mb_strlen($b['value'], "UTF-8")) ? -1 : 1;
 		}
+		
 		foreach($this->rules as $key=>$user_agent) {
 				uasort($user_agent, 'cmp');
 				$this->rules[$key] = $user_agent;
@@ -76,11 +90,14 @@ class Robotstxt
 	   return isset($this->rules[$user_agent]);
    }
    
-   function isAllowed($url, $user_agent="*") 
-   {
-	   if ($this->current_user_agent !== null) {
-		   $user_agent = $this->current_user_agent;
-	   }
+   function isAllowed($url, $user_agent="*") {
+
+   	    if (mb_substr($url, 0, 1, "UTF-8") !== '/') {
+   	   		return true;
+   	    }
+	    if ($this->current_user_agent !== null) {
+			$user_agent = $this->current_user_agent;
+	    }
    		$status = true;
    		if ( isset($this->rules[$user_agent])) {
 	   		foreach($this->rules[$user_agent] as $rl) {
@@ -89,7 +106,7 @@ class Robotstxt
 	   			foreach($parts as $part) {
 
 	   				if ($part != '') {
-	   					if (mb_substr($part, -1, 1) == '$') {
+	   					if (mb_substr($part, -1, 1, "UTF-8") == '$') {
 	   						$part = rtrim($part, "$");
 	   						$pos = stripos($url, $part);
 		   					if ($pos === false || $pos + mb_strlen($part, "UTF-8") != mb_strlen($url, "UTF-8")) {
@@ -98,6 +115,7 @@ class Robotstxt
 		   					}
 	   					} else {
 		   					$pos = stripos($url, $part);
+
 		   					if ($pos === false ) {
 		   						$allowed = false;
 		   						break;
@@ -112,6 +130,7 @@ class Robotstxt
 	   					$status = true;
 	   				}
 	   			}
+	   			
 	   		}
 	   	}
    		return $status;
