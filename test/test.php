@@ -40,8 +40,6 @@ $robots->init("
 
 	");
 
-var_dump($robots->rules);
-
 $task = array(
 			'/blogs' => true,
 			'/blogs/page.php?page=1&sort=price' => true,
@@ -69,36 +67,36 @@ $task_botcarbon = array(
 $count_error = 0;
 foreach ($task as $url=>$t) {
 	if ($robots->isAllowed($url) === $t) {
-		echo("TRUE] Доступ для '".$url."' определен верно\n");
+		echo("[TRUE] Доступ для '".$url."' определен верно\n");
 	} else {
-		echo("FALSE] Доступ для '".$url."' определен неверно\n");
+		echo("[FALSE] Доступ для '".$url."' определен неверно\n");
 		$count_error++;
 	}
 }
 
 foreach ($task_botd as $url=>$t) {
 	if ($robots->isAllowed($url, 'botd') === $t) {
-		echo("TRUE] Доступ для '".$url."' определен верно\n");
+		echo("[TRUE] Доступ для '".$url."' определен верно\n");
 	} else {
-		echo("FALSE] Доступ для '".$url."' определен неверно\n");
+		echo("[FALSE] Доступ для '".$url."' определен неверно\n");
 		$count_error++;
 	}
 }
 
 foreach ($task_bota as $url=>$t) {
 	if ($robots->isAllowed($url, 'bota') === $t) {
-		echo("TRUE] Доступ для '".$url."' определен верно\n");
+		echo("[TRUE] Доступ для '".$url."' определен верно\n");
 	} else {
-		echo("FALSE] Доступ для '".$url."' определен неверно\n");
+		echo("[FALSE] Доступ для '".$url."' определен неверно\n");
 		$count_error++;
 	}
 }
 
 foreach ($task_botcarbon as $url=>$t) {
 	if ($robots->isAllowed($url, 'botcarbon') === $t) {
-		echo("TRUE] Доступ для '".$url."' определен верно\n");
+		echo("[TRUE] Доступ для '".$url."' определен верно\n");
 	} else {
-		echo("FALSE] Доступ для '".$url."' определен неверно\n");
+		echo("[FALSE] Доступ для '".$url."' определен неверно\n");
 		$count_error++;
 	}
 }
