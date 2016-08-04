@@ -37,7 +37,7 @@ $robotstxt->init(file_get_contents('http://yandex.ru/robots.txt'));
 Проверка запрещена ли ссылка в robots.txt
 
 ```php
-if ($robots->isAllowed('/msearch') ) {
+if ($robotstxt->isAllowed('/msearch') ) {
     echo('Доступ разрешен');
 } else {
     echo('Доступ запрещен');
