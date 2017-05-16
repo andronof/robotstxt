@@ -50,4 +50,4 @@ if ($robotstxt->isAllowed('/msearch') ) {
 * **setUserAgent($user_agent = null)** — Устанавливает правила какого бота использовать. Имеет больший приоритет чем если указывать бота в функции isAllowed. Если необходимо сбросить глобального бота передайте в эту функцию null.
 
 ## Используется в проектах
-* [http://gensitemap.ru/](http://gensitemap.ru/)
+* [https://gensitemap.ru/](https://gensitemap.ru/)
