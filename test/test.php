@@ -10,6 +10,8 @@ $robots->init("
 			    # github.com просто надпись
 				User-agent: * # комментарий который может все испортить
 				Disallow: /
+						
+				
 				
 				@@@Disallow: /
 				Allow: /blogs # комментарий который может все испортить
@@ -34,9 +36,7 @@ $robots->init("
 				
 				Disallow:/carbon.php
 				Allow:/carbon.php
-				
-
-				
+				Disallow: /*?rand=		
 
 	");
 
@@ -50,6 +50,8 @@ $task = array(
 			'/m.php?p=1' => false,
 			'/' => false,
 			
+			
+			
 		);
 
 $task_botd = array(
@@ -61,7 +63,9 @@ $task_bota = array(
 		);
 
 $task_botcarbon = array(
-			'/carbon.php' => true
+			'/carbon.php' => true,
+			'http://www.matras-market.ru/aksessuary/135x200/tempur?rand=dprice' => false,
+			'aksessuary/135x200/tempur?rand=dprice' => false,
 		);
 
 $count_error = 0;
