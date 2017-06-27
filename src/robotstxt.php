@@ -86,17 +86,39 @@ class Robotstxt
         return (mb_strlen($a['value'], "UTF-8") < mb_strlen($b['value'], "UTF-8")) ? -1 : 1;
     }
 
-   function isUserAgent($user_agent)
-   {
-       return isset($this->rules[$user_agent]);
-   }
+    function isUserAgent($user_agent)
+    {
+        return isset($this->rules[$user_agent]);
+    }
+
+    function unparse_url($parsed_url)
+    { 
+        $scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : ''; 
+        $host     = isset($parsed_url['host']) ? $parsed_url['host'] : ''; 
+        $port     = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : ''; 
+        $user     = isset($parsed_url['user']) ? $parsed_url['user'] : ''; 
+        $pass     = isset($parsed_url['pass']) ? ':' . $parsed_url['pass']  : ''; 
+        $pass     = ($user || $pass) ? "$pass@" : ''; 
+        $path     = isset($parsed_url['path']) ? $parsed_url['path'] : ''; 
+        $query    = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : ''; 
+        $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : ''; 
+        return "$scheme$user$pass$host$port$path$query$fragment"; 
+    } 
    
    function isAllowed($url, $user_agent="*")
    {
 
-        if (mb_substr($url, 0, 1, "UTF-8") !== '/') {
+        $purl = parse_url($url);
+        unset($purl['scheme']);
+        unset($purl['host']);
+        unset($purl['port']);
+        unset($purl['user']);
+        unset($purl['pass']);
+        $url = $this->unparse_url($purl );
+
+        /*if (mb_substr($url, 0, 1, "UTF-8") !== '/') {
             return true;
-        }
+        }*/
         if ($this->current_user_agent !== null) {
             $user_agent = $this->current_user_agent;
         }
