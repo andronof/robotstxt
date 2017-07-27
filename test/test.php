@@ -49,9 +49,6 @@ $task = array(
 			'/m.ph' => false,
 			'/m.php?p=1' => false,
 			'/' => false,
-			
-			
-			
 		);
 
 $task_botd = array(
@@ -98,6 +95,29 @@ foreach ($task_bota as $url=>$t) {
 
 foreach ($task_botcarbon as $url=>$t) {
 	if ($robots->isAllowed($url, 'botcarbon') === $t) {
+		echo("[TRUE] Доступ для '".$url."' определен верно\n");
+	} else {
+		echo("[FALSE] Доступ для '".$url."' определен неверно\n");
+		$count_error++;
+	}
+}
+
+$robots->init("User-agent: *
+Allow: *
+Disallow: /404.php
+Host: faberlicsale.com");
+
+$task = array(
+			"http://faberlicsale.com/index.php" => true,
+			"http://faberlicsale.com/Voprosy-otvety.php" => true,
+			"http://faberlicsale.com/Consultant-Faberlic.php" => true,
+			"http://faberlicsale.com/News-Faberlic.php" => true,
+			"http://faberlicsale.com/O-Faberlic.php" => true,
+			"http://faberlicsale.com/Contacts.php" => true,
+		);
+
+foreach ($task as $url=>$t) {
+	if ($robots->isAllowed($url) === $t) {
 		echo("[TRUE] Доступ для '".$url."' определен верно\n");
 	} else {
 		echo("[FALSE] Доступ для '".$url."' определен неверно\n");

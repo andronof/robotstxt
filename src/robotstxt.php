@@ -20,6 +20,7 @@ class Robotstxt
     {
        $text = explode("\n", $text);
        $user_agent = "";
+       $this->rules = array();
        foreach($text as $t) {
            $t = explode("#", $t);
            $t = trim($t[0]);
@@ -46,7 +47,7 @@ class Robotstxt
                 }
 
                 // Если пустые параметры
-                if ($value == "*") {
+                if ($params[1] == "") {
                     if ($params[0] === 'disallow') {
                         $params[0] = 'allow';
                     } else {
@@ -68,7 +69,6 @@ class Robotstxt
                 uasort($user_agent, array($this, 'cmp'));
                 $this->rules[$key] = $user_agent;
         }
-       
         return true;
 
     }
@@ -128,7 +128,6 @@ class Robotstxt
                 $parts = explode('*', $rl['value']);
                 $allowed = true;
                 foreach($parts as $part) {
-
                     if ($part != '') {
                         if (mb_substr($part, -1, 1, "UTF-8") == '$') {
                             $part = rtrim($part, "$");
