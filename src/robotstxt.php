@@ -3,7 +3,6 @@ class Robotstxt
 {
     var $rules = array();
     var $current_user_agent = null;
-
     function __construct($text = '') 
     {
         if ($text != '') {
@@ -38,14 +37,12 @@ class Robotstxt
                 if ($user_agent == '') {
                     continue;
                 }
-
                 if (mb_substr($params[1], -1 , 1, "UTF-8") == '$' ||
                     mb_substr($params[1], -1 , 1, "UTF-8") == '*') {
                         $value = $params[1];
                 } else {
                     $value = $params[1].'*';
                 }
-
                 // Если пустые параметры
                 if ($params[1] == "") {
                     if ($params[0] === 'disallow') {
@@ -53,6 +50,10 @@ class Robotstxt
                     } else {
                         $params[0] = 'disallow';
                     }
+                }
+
+                if (mb_substr($value, 0, 2, "UTF-8") == '/*') {
+                    $value = substr($value, 2);
                 }
                 
                 
@@ -70,9 +71,7 @@ class Robotstxt
                 $this->rules[$key] = $user_agent;
         }
         return true;
-
     }
-
     function cmp($a, $b)
     {
         if (mb_strlen($a['value'], "UTF-8") == mb_strlen($b['value'], "UTF-8")) {
@@ -85,12 +84,10 @@ class Robotstxt
         }
         return (mb_strlen($a['value'], "UTF-8") < mb_strlen($b['value'], "UTF-8")) ? -1 : 1;
     }
-
     function isUserAgent($user_agent)
     {
         return isset($this->rules[$user_agent]);
     }
-
     function unparse_url($parsed_url)
     { 
         $scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : ''; 
@@ -107,7 +104,6 @@ class Robotstxt
    
    function isAllowed($url, $user_agent="*")
    {
-
         $purl = parse_url($url);
         unset($purl['scheme']);
         unset($purl['host']);
@@ -115,7 +111,6 @@ class Robotstxt
         unset($purl['user']);
         unset($purl['pass']);
         $url = $this->unparse_url($purl );
-
         /*if (mb_substr($url, 0, 1, "UTF-8") !== '/') {
             return true;
         }*/
@@ -138,7 +133,13 @@ class Robotstxt
                             }
                         } else {
                             $pos = stripos($url, $part);
-
+                            if (mb_substr($part, 0, 1, "UTF-8") == '/') {
+                                if ($pos != 0 || $pos != false) {
+                                    $allowed = false;
+                                    break;    
+                                }
+                                
+                            }
                             if ($pos === false ) {
                                 $allowed = false;
                                 break;

@@ -6,6 +6,55 @@ require_once(__DIR__.'/../src/robotstxt.php');
 
 $robots = new Robotstxt();
 
+$count_error = 0;
+
+
+$robots->init("User-agent: *
+Disallow: /auto
+Disallow: /ff*/dd$
+Allow: /
+");
+
+$task = array(
+			"/catalog/auto" => true,
+			"/ffaa/dd" => false,
+		);
+		
+foreach ($task as $url=>$t) {
+	if ($robots->isAllowed($url) === $t) {
+		echo("[TRUE] Доступ для '".$url."' определен верно\n");
+	} else {
+		echo("[FALSE] Доступ для '".$url."' определен неверно\n");
+		$count_error++;
+	}
+}
+
+
+
+$robots->init("User-agent: *
+Allow: /catalog
+Disallow: /catalog/auto
+Disallow: /cat
+");
+
+$task = array(
+			"/" => true,
+			"/catalog" => true,
+			"/catalog/auto" => false,
+			"/auto" => true,
+			"/ru/cat" => true,
+		);
+		
+foreach ($task as $url=>$t) {
+	if ($robots->isAllowed($url) === $t) {
+		echo("[TRUE] Доступ для '".$url."' определен верно\n");
+	} else {
+		echo("[FALSE] Доступ для '".$url."' определен неверно\n");
+		$count_error++;
+	}
+}
+
+
 $robots->init("
 			    # github.com просто надпись
 				User-agent: * # комментарий который может все испортить
@@ -16,7 +65,7 @@ $robots->init("
 				@@@Disallow: /
 				Allow: /blogs # комментарий который может все испортить
 				Allow:/car/m.php?page=*&sort=price
-				
+				Disallow: /dlaaa
 				
 				
 
@@ -42,6 +91,7 @@ $robots->init("
 
 $task = array(
 			'/blogs' => true,
+			'/ru/dlaaa' => false,
 			'/blogs/page.php?page=1&sort=price' => true,
 			'/home' => false,
 			'/car/m.php?page=1000&sort=price' => true,
@@ -65,7 +115,7 @@ $task_botcarbon = array(
 			'aksessuary/135x200/tempur?rand=dprice' => false,
 		);
 
-$count_error = 0;
+
 foreach ($task as $url=>$t) {
 	if ($robots->isAllowed($url) === $t) {
 		echo("[TRUE] Доступ для '".$url."' определен верно\n");
@@ -74,6 +124,8 @@ foreach ($task as $url=>$t) {
 		$count_error++;
 	}
 }
+
+
 
 foreach ($task_botd as $url=>$t) {
 	if ($robots->isAllowed($url, 'botd') === $t) {
