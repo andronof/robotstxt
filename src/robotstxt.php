@@ -59,7 +59,8 @@ class Robotstxt
                 
                 $this->rules[$user_agent][] = array(
                                         'name' => $params[0],
-                                        'value' => $value
+                                        'value' => $value,
+                                        'evalue' => explode('*', $value)
                                     );
            }
         }
@@ -120,9 +121,8 @@ class Robotstxt
         $status = true;
         if ( isset($this->rules[$user_agent])) {
             foreach($this->rules[$user_agent] as $rl) {
-                $parts = explode('*', $rl['value']);
                 $allowed = true;
-                foreach($parts as $part) {
+                foreach($rl['evalue'] as $part) {
                     if ($part != '') {
                         if (mb_substr($part, -1, 1, "UTF-8") == '$') {
                             $part = rtrim($part, "$");
